@@ -1,0 +1,34 @@
+{
+  "name": "dgtek-map",
+  "version": "1.1.9",
+  "description": "This package draws DGtek polygons & checks the address to be in the footprint. For DGtek and it's resellers only.",
+  "main": "./dist/dgtek-map.js",
+  "files": [
+    "dist/*",
+    "README.md"
+  ],
+  "scripts": {
+    "dev": "webpack --mode development -w",
+    "prod": "webpack --mode production",
+    "package-dev": "webpack --config webpack.config.package.dgtek-map.js --mode development -w",
+    "package": "webpack --config webpack.config.package.dgtek-map.js --mode production",
+    "worker": "webpack --config ./worker/webpack.config.worker.js --mode production",
+    "worker-dev": "webpack --config ./worker/webpack.config.worker.js --mode development -w"
+  },
+  "keywords": [
+    "dgtek",
+    "map",
+    "polygons",
+    "markers",
+    "addresses",
+    "buildings"
+  ],
+  "author": "garevna <irina.h.fylyppova@gmail.com>",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "dotenv": "^8.2.0",
+    "webpack": "^5.28.0",
+    "webpack-cli": "^4.5.0"
+  }
+}
