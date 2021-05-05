@@ -31,7 +31,8 @@ class DgtekMap {
       buildingId: null,
       address: null,
       status: null,
-      addressComponents: null
+      addressComponents: null,
+      estimatedServiceDeliveryTime: null
     }
 
     this.options = {}

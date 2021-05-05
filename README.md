@@ -1,6 +1,7 @@
-# DGTek-map
+# dgtek-map
 __________________
-## How to install
+
+## :clipboard: Installation
 
 ```
 yarn add dgtek-map && mv node_modules/dgtek-map/dist/map.worker.js public
@@ -10,7 +11,7 @@ or
 npm install dgtek-map && mv node_modules/dgtek-map/dist/map.worker.js public
 ```
 
-## How to use
+## :clipboard: How to use
 __________________________
 
 #### Import package:
@@ -21,12 +22,22 @@ import DgtekMap from 'dgtek-map'
 #### Start web-worker
 
 ###### `initWorker.js`:
+
+If your app starts from root folder:
+
 ```js
-window[Symbol.for('map.worker')] = new Worker('dgtek-map/dist/map.worker.js')
+window[Symbol.for('map.worker')] = new Worker('map.worker.js')
 ```
 
+If your app starts from subfolder (for example `https://example.com/app/`):
 
-#### Create container for map with id "container-for-map" and stylize it as you need:
+```js
+window[Symbol.for('map.worker')] = new Worker('/app/map.worker.js')
+```
+
+### :memo: Work with map
+
+Create container for map with id "container-for-map" and stylize it as you need:
 
 ```html
 <style>
@@ -44,23 +55,55 @@ window[Symbol.for('map.worker')] = new Worker('dgtek-map/dist/map.worker.js')
 <script src="initWorker.js"></script>
 <script src="dist/main.js"></script>
 ```
-> This container will receive events
+
+#### :clipboard: Get started
+
+```js
+const map = new DGtekMap({
+  container,
+  center: { lat: -37.8357725, lng: 144.9738764 }
+})
+```
+
+> Map container will receive events
+
+### :page_with_curl: Events
+
+#### :point_right: Selected address events
 
 | event type | description |
 |-|-|
-| Selected address events | Selected building is: |
-| **on-net** | on-net |
-| **footprint** | in the footprint |
-| **construction-commenced** | under construction |
-| **coming-soon** | coming soon |
-| **not-available** | N/A |
-| Other events | |
-| **list** | Get the list of addresses from buildings DB |
-|  **submit-address**  | User pressed the button SUBMIT |
-|  **get-by-id**  | Get building description by id |
-|  **get-by-address**  | Get building description by address |
+|  | Selected building is: |
+| **`on-net`** | <sup>on-net</sup> |
+| **`footprint`** | <sup>in the footprint</sup> |
+| **`construction-commenced`** | <sup>under construction</sup> |
+| **`coming-soon`** | <sup>coming soon</sup> |
+| **`not-available`** | <sup>N/A</sup> |
 
-#### Set event handler:
+#### :point_right: List events
+
+The array of results from the collection of buildings DB received
+
+| event type | description |
+|-|-|
+| **`buildings-address-list`** | <sup>The list of addresses</sup> |
+| **`buildings-data-list`** | <sup>The list of base data (`{ id, address, addressComponents }`)</sup> |
+
+#### :point_right: Search events
+
+| event type | description |
+|-|-|
+|  **`get-by-id`**  | <sup>Get building description by id</sup> |
+|  **`get-by-address`**  | <sup>Get building description by address</sup> |
+
+#### :point_right: UI events
+
+| event type | description |
+|-|-|
+|  **`submit-address`**  | <sup>User pressed the button SUBMIT</sup> |
+
+
+#### Event handler example:
 
 ```js
 const events = [
@@ -69,7 +112,8 @@ const events = [
   'construction-commenced',
   'coming-soon',
   'not-available',
-  'list',
+  'buildings-address-list',
+  'buildings-data-list',
   'submit-address',
   'get-by-id',
   'get-by-address'
@@ -86,54 +130,88 @@ function catchEvent (event) {
 }
 ```
 
-> You should write your own code for `catchEvent`
+> <sup>You should write your own code for `catchEvent`</sup>
 
-#### Now you are ready to get started
+________________________________
 
+### :page_with_curl: Methods
+
+• change default host url
+
+```js
+setHost (data)
 ```
-const map = new DGtekMap({
-  container,
-  center: { lat: -37.8357725, lng: 144.9738764 }
-})
+
+• change default api key
+
+```js
+setApiKey (data)
 ```
 
-#### Methods
+• get list of building's addresses from collection
 
+```js
+getBuildingsList (collectionName)
 ```
-setHost (data)  // change default host url
 
-setApiKey (data) // change default api key
+• get list of building's data from collection
 
-getLIT () // get list of 'on-net' buildings
+```js
+getBuildingsData (collectionName)
+```
+> <sup>Building data: `{ id, address, addressComponents }`</sup>
 
-getFootprint () // get list of 'footprint' buildings
+> <sup>Collections: 'lit', 'footprint', 'build', 'soon', 'other'</sup>
 
-getBuildingDataById (buildingId) // get full description of building by it's id
+• get list of 'on-net' buildings
 
-getBuildingDataByAddress (address) // get full description of building by it's address
+```js
+getLIT ()
+```
 
-postBuildingData (buildingData) // save new building
+• get list of 'footprint' buildings
 
-putBuildingData (buildingId, buildingData) // update existing building data
+```js
+getFootprint ()
+```
+
+• get full description of building by it's id
+
+```js
+getBuildingDataById (buildingId)
+```
+
+• get full description of building by it's address
+
+```js
+getBuildingDataByAddress (address)
+```
+
+• save new building
+
+```js
+postBuildingData (buildingData)
+```
+
+• update existing building data
+
+```js
+putBuildingData (buildingId, buildingData)
 ```
 
 _________________________________________
 
-> ...
-> Additional (not important)
+### Additional
 
-> You are able to catch the messages from the worker directly as an alternative to event handling:
+:pushpin: You can catch events listed above on the worker' instance directly:
 
 ```js
-window[Symbol.for('map.worker')].onmessage = function (event) {
-  console.log('Out of package:\n', event.data)
-}
+events.forEach(event => window[Symbol.for('map.worker')].addEventListener(event, catchEvent))
 ```
->> `but you don't need this`
 
-> You can send requests directly to the worker
+:pushpin: You can send requests directly to the worker
 
->> Search for address:
+☕ Search for address:
 
 ```js
 window[Symbol.for('map.worker')].postMessage({
@@ -143,4 +221,14 @@ window[Symbol.for('map.worker')].postMessage({
 })
 ```
 
->> `but we don't recomend to do this`
+☕ Get list of addresses:
+
+```js
+window[Symbol.for('map.worker')].postMessage({ action: 'list', key: 'build' })
+```
+
+☕ Get list of addresses:
+
+```js
+window[Symbol.for('map.worker')].postMessage({ action: 'data', key: 'soon' })
+```

@@ -6,23 +6,30 @@ import {
   notAvailableMarker
 } from './markers'
 
-export const polygonTypes = {
-  ServiceAvailable: {
+export const buildingTypes = {
+  lit: {
+    status: 'LIT',
+    event: 'on-net',
+    marker: litMarker
+  },
+  footprint: {
     status: 'Footprint',
     event: 'footprint',
-    color: '#A00E0D',
     marker: footprintMarker
   },
-  BuildCommenced: {
+  build: {
     status: 'UnderConstruction',
     event: 'construction-commenced',
-    color: '#000000',
     marker: buildMarker
   },
-  ComingSoon: {
+  soon: {
     status: 'ComingSoon',
     event: 'coming-soon',
-    color: '#ffff9990',
     marker: soonMarker
+  },
+  other: {
+    status: 'Other',
+    event: 'not-available',
+    marker: notAvailableMarker
   }
 }

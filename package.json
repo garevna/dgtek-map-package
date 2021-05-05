@@ -1,6 +1,6 @@
 {
   "name": "dgtek-map",
-  "version": "1.1.9",
+  "version": "1.4.1",
   "description": "This package draws DGtek polygons & checks the address to be in the footprint. For DGtek and it's resellers only.",
   "main": "./dist/dgtek-map.js",
   "files": [

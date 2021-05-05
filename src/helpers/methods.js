@@ -6,6 +6,20 @@ export const setApiKey = function (data) {
   window[Symbol.for('map.worker')].postMessage({ action: 'key', data })
 }
 
+export const getBuildingsList = function (key) {
+  window[Symbol.for('map.worker')].postMessage({
+    action: 'list',
+    key
+  })
+}
+
+export const getBuildingsData = function (key) {
+  window[Symbol.for('map.worker')].postMessage({
+    action: 'data',
+    key
+  })
+}
+
 export const getLIT = function () {
   window[Symbol.for('map.worker')].postMessage({
     action: 'list',

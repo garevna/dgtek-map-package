@@ -8,7 +8,8 @@ const events = [
   'construction-commenced',
   'coming-soon',
   'not-available',
-  'list',
+  'buildings-address-list',
+  'buildings-data-list',
   'submit-address',
   'get-by-id',
   'get-by-address',
@@ -20,9 +21,22 @@ const container = document.getElementById('container-for-map')
 
 const catchEvent = function (event) {
   console.group('Event handler outside package')
+  console.log(event.target === window[Symbol.for('map.worker')] ? 'WORKER EVENT' : 'INSTANCE EVENT')
   console.log('Event type: ', event.type)
   console.log('Event data:\n', event.data)
   console.groupEnd('Event handler outside package')
+  // if (event.type === 'building-data-list' || event.type === 'building-address-list') {
+  //   console.log(event.data.result.map(item => item))
+  //   console.log(event.data.result.event)
+  //   console.log(event.data.result.buildingStatus)
+  //   console.log(event.data.result.polygonStatus)
+  // }
+  // if (event.type === 'get-by-id') {
+  //   const { key, result: data } = event.data
+  //   Object.assign(data, { estimatedServiceDeliveryTime: '1-3 days' })
+  //   console.log(data)
+  //   window[Symbol.for('map.worker')].postMessage({ action: 'put', store: 'lit', key, data })
+  // }
 }
 
 events.forEach(event => container.addEventListener(event, catchEvent))
@@ -31,14 +45,21 @@ const mapComponent = new DgtekMap({
   container: document.getElementById('container-for-map')
 })
 
-mapComponent.getLIT()
-mapComponent.getFootprint()
+// events.forEach(event => window[Symbol.for('map.worker')].addEventListener(event, catchEvent))
 
-// mapComponent.getByAddress('24 HOTHAM GROVE, ELSTERNWICK VIC 3185')
+// mapComponent.getLIT()
+// mapComponent.getFootprint()
 
-window[Symbol.for('map.worker')].postMessage({ action: 'getById', store: '*', key: '5fb007a8227ca1003434e19e' })
+mapComponent.getBuildingsList('other')
 
-window[Symbol.for('map.worker')].postMessage({ action: 'getByAddress', store: '*', key: '24 HOTHAM GROVE, ELSTERNWICK VIC 3185' })
+mapComponent.getBuildingsData('soon')
 
-// mapComponent.getBuildingDataById('5faffb0b227ca1003434e182')
-mapComponent.getBuildingDataByAddress('105 COLLINS ST, MELBOURNE VIC 3000')
+mapComponent.getBuildingDataById('5faffb5a227ca1003434e184')
+
+// window[Symbol.for('map.worker')].addEventListener('building-data-list', function (event) {
+//   console.log('WORKER EVENT:\n', event)
+// })
+
+window[Symbol.for('map.worker')].postMessage({ action: 'data', key: 'build' })
+
+// mapComponent.getBuildingDataByAddress('105 COLLINS ST, MELBOURNE VIC 3000')
