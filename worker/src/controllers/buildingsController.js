@@ -1,5 +1,6 @@
 import {
   getBuildingsList,
+  getBuildingsData,
   storeBuildings,
   getBuildingDataByAddress,
   searchBuilding
@@ -28,6 +29,10 @@ class BuildingsController {
 
   async getBuildingsList (request) {
     self.postMessage(await getBuildingsList(request.key))
+  }
+
+  async getBuildingsData (request) {
+    self.postMessage(await getBuildingsData(request.key))
   }
 
   async searchBuilding (request) {

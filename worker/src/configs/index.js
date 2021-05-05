@@ -4,6 +4,7 @@ import { apiKey } from './apiKey'
 import { collections } from './collections'
 import { statusNames } from './statusNames'
 import { buildingSchema } from './buildingSchema'
+import { types } from './types'
 
 export {
   routes,
@@ -11,5 +12,6 @@ export {
   apiKey,
   collections,
   statusNames,
-  buildingSchema
+  buildingSchema,
+  types
 }

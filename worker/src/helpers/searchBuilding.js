@@ -7,8 +7,6 @@ export const searchBuilding = async (address) => {
   for (const statusName in statusNames) {
     const { status, result } = await getRecordByKey(statusName, address)
 
-    // self.postMessage({ status: 300, action, result: { status, store: statusName, key, ...result } })
-
     if (status === 200) return { status, action, store: statusName, key, result }
   }
 

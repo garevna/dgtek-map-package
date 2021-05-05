@@ -16,9 +16,9 @@ export const storeBuildings = async (key) => {
     const { status, result } = await clearStore(collectionName)
     const collection = data.filter(record => record.status === statusNames[collectionName])
     for (const record of collection) {
-      const { address, ...rest } = record
+      const { address } = record
 
-      const { status, result } = await putRecordByKey(collectionName, addressTransform(address), rest)
+      const { status, result } = await putRecordByKey(collectionName, addressTransform(address), record)
 
       if (status !== 200) self.postMessage({ status, action, store: collectionName, result: address })
     }

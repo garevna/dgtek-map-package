@@ -2,6 +2,7 @@ import { putRecordByKey } from './putRecordByKey'
 import { getRecordByKey } from './getRecordByKey'
 import { deleteRecordByKey } from './deleteRecordByKey'
 import { getAllKeys } from './getAllKeys'
+import { getAll } from './getAll'
 import { clearStore } from './clearStore'
 
 export {
@@ -9,5 +10,6 @@ export {
   getRecordByKey,
   deleteRecordByKey,
   getAllKeys,
+  getAll,
   clearStore
 }

@@ -5,6 +5,7 @@ export const routes = {
   key: buildingsController.setBuildingsApiKey, /* api key in body */
   init: buildingsController.storeBuildings,
   list: buildingsController.getBuildingsList, /* by type */
+  data: buildingsController.getBuildingsData, /* by type */
   search: buildingsController.searchBuilding, /* by address */
   getById: buildingsController.getBuildingDataById,
   getByAddress: buildingsController.getBuildingDataByAddress,
